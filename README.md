@@ -21,7 +21,7 @@ customer-managed key scoped to least-privilege.
 
 ## Architecture
 
-- **Route53 + ACM** — custom domain with SSL at youramericanhistory.click
+- **Route53 + ACM** — custom domain with TLS at youramericanhistory.click
 - **CloudFront + OAC** — CDN with origin access control, geo-restriction, custom TTL
 - **S3** — private bucket with SSE-KMS, versioning, and lifecycle policies
 - **KMS CMK** — customer-managed key with scoped key policy
