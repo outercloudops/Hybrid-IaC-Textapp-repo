@@ -36,12 +36,14 @@ customer-managed key scoped to least-privilege.
 ## Repository Structure
 
     bootstrap/           One-time infrastructure: S3 state buckets, KMS CMK,
-                         IAM roles, CodePipeline, CodeBuild, Lambda
+                         IAM roles, CodePipeline, CodeBuild, Lambda execution
+                         role + policy + attachment
     main-infra/          Core resources: CloudFront, OAC, S3 app bucket,
-                         API Gateway, APIGW + Lambda Route & Integration
+                         API Gateway, Lambda Function, APIGW + Lambda Route,
+                         Integration, & Stage
                          remote state data source, 
     ah-text-app/         HTML site source code and app lambda_handler.py 
-    buildspec-infra.yml   CodeBuild HTML site build specification
+    buildspec-infra.yml  CodeBuild HTML site build specification
     testing/             Pytest file to run checks against app logic living in 
                          handler via secondary dev pipeline
 ---
