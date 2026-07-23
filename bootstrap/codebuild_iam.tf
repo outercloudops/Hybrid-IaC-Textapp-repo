@@ -247,7 +247,8 @@ data "aws_iam_policy_document" "codebuild_policy" {
       "apigateway:POST",
       "apigateway:PATCH",
       "apigateway:PUT",
-      "apigateway:DELETE"
+      "apigateway:DELETE",
+      "apigateway:TagResource"
     ]
     resources = ["arn:aws:apigateway:${data.aws_region.current.region}::/*"] #POST permission scopes on a collection level also due to the resource not yet existing
   }
@@ -260,6 +261,7 @@ data "aws_iam_policy_document" "codebuild_policy" {
       "logs:DeleteLogGroup",
       "logs:DescribeLogGroups",
       "logs:PutRetentionPolicy",
+      "logs:TagResource",
       "logs:ListTagsLogGroup"
     ]
     resources = [

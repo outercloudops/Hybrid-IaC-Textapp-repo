@@ -32,7 +32,8 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     path_pattern           = "/api/*"
     target_origin_id       = "apigw" #match origin id for correct CloudFront routing
     viewer_protocol_policy = "https-only"
-    allowed_methods        = ["GET", "HEAD", "POST"] #app uses POST. GET & HEAD required.
+    allowed_methods = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"] #app uses POST. GET & HEAD required.
+    #cloudfront accepts 3 ways for allowed methods in ordered cache behavior. get head, get head options, or all methods in this order
     cached_methods         = ["GET", "HEAD"]         #POST not cached to prevent anthropic api response reuse
     forwarded_values {
       query_string = false # Do not forward or cache based on query strings.
