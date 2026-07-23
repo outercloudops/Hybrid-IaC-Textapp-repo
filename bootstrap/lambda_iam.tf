@@ -13,7 +13,7 @@ data "aws_iam_policy_document" "lambda_assume_role" {
 resource "aws_iam_role" "lambda_fm_exec" {
   name               = "founding-mirror-lambda-exec"
   assume_role_policy = data.aws_iam_policy_document.lambda_assume_role.json
-  tags = { project = "founding-mirror-textapp" }
+  tags               = { project = "founding-mirror-textapp" }
 }
 
 # SSM + KMS permissions policy document
@@ -47,4 +47,4 @@ resource "aws_iam_role_policy_attachment" "lambda_fm_ssm_kms" {
 resource "aws_iam_role_policy_attachment" "lambda_basic_execution" {
   role       = aws_iam_role.lambda_fm_exec.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-}                           #^ because managed policies only have aws. no account id.
+} #^ because managed policies only have aws. no account id.

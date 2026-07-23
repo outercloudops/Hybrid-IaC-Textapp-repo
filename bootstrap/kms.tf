@@ -124,9 +124,9 @@ resource "aws_kms_key_policy" "cmk_textapp" {
         Condition = {
           StringLike = {
             "AWS:SourceArn" : "arn:aws:cloudfront::${data.aws_caller_identity.current.account_id}:distribution/E2RWPA67GA7YPI" #explicit mention post deployment to prevent drift
-          } #^ used to scope down to one resource; distribution
-        }   #StringEquals requires explicit distribution id. StringLike allows * processing for OAC handshake. 
-      }     #OAC handshake cannot process global IAM string wildcards for security verification during edge fetching. 
+          }                                                                                                                    #^ used to scope down to one resource; distribution
+        }                                                                                                                      #StringEquals requires explicit distribution id. StringLike allows * processing for OAC handshake. 
+      }                                                                                                                        #OAC handshake cannot process global IAM string wildcards for security verification during edge fetching. 
     ]
   })
 }
