@@ -223,6 +223,7 @@ data "aws_iam_policy_document" "codebuild_policy" {
       "lambda:GetFunctionCodeSigningConfig",
       "lambda:AddPermission",
       "lambda:RemovePermission",
+      "lambda:TagResource",
       "lambda:GetPolicy"
     ]
     resources = ["arn:aws:lambda:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:function:founding-mirror"]
@@ -248,7 +249,7 @@ data "aws_iam_policy_document" "codebuild_policy" {
       "apigateway:PUT",
       "apigateway:DELETE"
     ]
-    resources = ["arn:aws:apigateway:${data.aws_region.current.region}::/apis/*"]
+    resources = ["arn:aws:apigateway:${data.aws_region.current.region}::/*"] #POST permission scopes on a collection level also due to the resource not yet existing
   }
 
   statement {
@@ -261,7 +262,10 @@ data "aws_iam_policy_document" "codebuild_policy" {
       "logs:PutRetentionPolicy",
       "logs:ListTagsLogGroup"
     ]
-    resources = ["arn:aws:logs:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/founding-mirror"]
+    resources = [
+      "arn:aws:logs:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/founding-mirror",
+      "arn:aws:logs:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/founding-mirror:*"
+    ]
   }
 
 }
