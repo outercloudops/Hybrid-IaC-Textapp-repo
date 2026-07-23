@@ -7,7 +7,7 @@ phases:
     commands:
       - pip install anthropic -t ./package/
       
-  pre-build:    
+  pre_build:    
     commands:
       - cp ./ah-text-app/lambda_handler.py ./package/ && cd ./package/
       - zip -r ../ah-text-app/lambda_handler.zip . && cd ..
@@ -19,7 +19,7 @@ phases:
       - terraform -chdir=main-infra apply -auto-approve
       - aws s3 sync ./ah-text-app s3://$TEXTAPP_BUCKET --delete --exclude "lambda_handler.zip"
     
-  post-build:
+  post_build:
     commands:
       - aws cloudfront create-invalidation --distribution-id $DIST_ID --paths "/*"
 
