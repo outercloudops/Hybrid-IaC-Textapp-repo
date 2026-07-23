@@ -408,6 +408,12 @@ body {
   line-height: 2.1;
   min-height: 1.4rem;
   color: inherit;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.intro-line.visible {
+  opacity: 1;
 }
 
 /* ── Question Screen ───────────────────────────────────── */

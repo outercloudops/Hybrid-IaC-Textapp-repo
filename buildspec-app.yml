@@ -1,25 +1,25 @@
 version: 0.2
 
 phases:
-  install:
-    runtime-versions:
-      python: 3.12
-    commands:
-      - sudo yum install -y yum-utils shadow-utils
-      - sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
-      - sudo yum install -y terraform
-      - pip install anthropic -t ./package/
+  #install:
+    #runtime-versions:
+      #python: 3.12
+    #commands:
+      #- sudo yum install -y yum-utils shadow-utils
+      #- sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+      #- sudo yum install -y terraform
+      #- pip install anthropic -t ./package/
       
-  pre_build:    
-    commands:
-      - cp ./ah-text-app/lambda_handler.py ./package/ && cd ./package/ && zip -r ../ah-text-app/lambda_handler.zip . && cd ..
+  #pre_build:    
+    #commands:
+      #- cp ./ah-text-app/lambda_handler.py ./package/ && cd ./package/ && zip -r ../ah-text-app/lambda_handler.zip . && cd ..
   
   build:
     commands:
-      - terraform -chdir=main-infra init -backend-config="bucket=$TEXTAPP_STATE_BUCKET" #additional env var in codebuild needed for state bucket since backend.hcl not readily available []
-      - terraform -chdir=main-infra plan
-      - terraform -chdir=main-infra apply -auto-approve
-      - aws s3 sync ./ah-text-app s3://$TEXTAPP_BUCKET --delete --exclude "lambda_handler.zip"
+      #- terraform -chdir=main-infra init -backend-config="bucket=$TEXTAPP_STATE_BUCKET" #additional env var in codebuild needed for state bucket since backend.hcl not readily available []
+      #- terraform -chdir=main-infra plan
+      #- terraform -chdir=main-infra apply -auto-approve
+      #- aws s3 sync ./ah-text-app s3://$TEXTAPP_BUCKET --delete --exclude "lambda_handler.zip"
     
   post_build:
     commands:

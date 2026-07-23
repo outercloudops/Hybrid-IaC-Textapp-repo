@@ -81,7 +81,7 @@ const DELAY_TITLE_LETTER  = 90;           // ms per letter in materialization
 const DELAY_TITLE_ANIM    = 1400;         // ms for each letter's animation
 const DELAY_QUESTION_CHAR = 28;           // ms per char in question typewriter
 const DELAY_RESPONSE_CHAR = 18;           // ms per char in response typewriter
-const DELAY_INTRO_LINE    = 420;          // ms between intro lines
+const DELAY_INTRO_LINE    = 1200;          // ms between intro lines
 const IDLE_TIMEOUT_MS     = 4 * 60 * 1000;  // 4 minutes idle warning
 
 // ── State ─────────────────────────────────────────────────────────────────────
@@ -220,6 +220,7 @@ const INTRO_LINES_TEXT = [
 async function runIntroSequence() {
   for (let i = 0; i < introLines.length; i++) {
     introLines[i].textContent = INTRO_LINES_TEXT[i];
+    introLines[i].classList.add("visible");
     await sleep(DELAY_INTRO_LINE);
   }
 }
