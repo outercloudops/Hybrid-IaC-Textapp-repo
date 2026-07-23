@@ -3,14 +3,14 @@ data "aws_iam_role" "lambda_fm_exec" {
 }
 
 resource "aws_lambda_function" "founding_mirror" {
-  filename      = "./ah-text-app/lambda_handler.zip" # no data archive source since zip will be handled in buildspec-app
+  filename      = "../ah-text-app/lambda_handler.zip" # no data archive source since zip will be handled in buildspec-app
   function_name = "founding-mirror"
   role          = data.aws_iam_role.lambda_fm_exec.arn
   # Format: filename_without_extension.function_name
   # lambda_handler.py contains a function called lambda_handler.
   handler          = "lambda_handler.lambda_handler"
   runtime          = "python3.12"
-  source_code_hash = filebase64sha256("./ah-text-app/lambda_handler.zip")
+  source_code_hash = filebase64sha256("../ah-text-app/lambda_handler.zip")
   timeout          = 30
   memory_size      = 128 # 128 is the minimum. MB.
   environment {

@@ -5,15 +5,14 @@ phases:
     runtime-versions:
       python: 3.12
     commands:
-      - pip install anthropic -t ./package/
       - sudo yum install -y yum-utils shadow-utils
       - sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
       - sudo yum install -y terraform
+      - pip install anthropic -t ./package/
       
   pre_build:    
     commands:
-      - cp ./ah-text-app/lambda_handler.py ./package/ && cd ./package/
-      - zip -r ../ah-text-app/lambda_handler.zip . && cd ..
+      cp ./ah-text-app/lambda_handler.py ./package/ && cd ./package/ && zip -r ../ah-text-app/lambda_handler.zip . && cd ..
   
   build:
     commands:
