@@ -262,7 +262,8 @@ data "aws_iam_policy_document" "codebuild_policy" {
       "logs:DescribeLogGroups",
       "logs:PutRetentionPolicy",
       "logs:TagResource",
-      "logs:ListTagsLogGroup"
+      "logs:ListTagsLogGroup",
+      "logs:ListTagsForResource"
     ]
     resources = [
       "arn:aws:logs:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/founding-mirror",
