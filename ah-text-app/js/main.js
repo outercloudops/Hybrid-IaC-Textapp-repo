@@ -81,7 +81,7 @@ const DELAY_TITLE_LETTER  = 90;           // ms per letter in materialization
 const DELAY_TITLE_ANIM    = 1400;         // ms for each letter's animation
 const DELAY_QUESTION_CHAR = 28;           // ms per char in question typewriter
 const DELAY_RESPONSE_CHAR = 18;           // ms per char in response typewriter
-const DELAY_INTRO_LINE    = 1200;          // ms between intro lines
+const DELAY_INTRO_LINE    = 4000;          // ms between intro lines
 const IDLE_TIMEOUT_MS     = 4 * 60 * 1000;  // 4 minutes idle warning
 
 // ── State ─────────────────────────────────────────────────────────────────────
@@ -120,6 +120,7 @@ const idleWarning     = document.getElementById("idle-warning");
 
 const responseText   = document.getElementById("response-text");
 const continueBtn    = document.getElementById("continue-btn");
+const closeBtn       = document.getElementById("close-btn");
 
 const outroText      = document.getElementById("outro-text");
 
@@ -309,7 +310,7 @@ async function startExperience() {
   await sleep(700);
   await runIntroSequence();
 
-  await sleep(1000);
+  await sleep(3000);
   await showQuestion(QUESTIONS[currentIndex]);
 }
 
@@ -406,6 +407,19 @@ async function handleRetry() {
   showEl(continueBtn);
 }
 
+function closeExperience() {
+  hideEl(appOverlay);
+  currentIndex  = 0;
+  lastSubmitted = null;
+  clearIdleTimer();
+  introLines.forEach(line => {
+    line.textContent = "";
+    line.classList.remove("visible");
+  });
+  titleText.innerHTML = "";
+  appOverlay.classList.remove("phase-white", "phase-blue", "phase-red");
+  showScreen(titleScreen);
+}
 
 // ── Event Listeners ───────────────────────────────────────────────────────────
 
@@ -424,5 +438,5 @@ answerInput.addEventListener("keydown", (e) => {
 });
 
 continueBtn.addEventListener("click", handleContinue);
-
+closeBtn.addEventListener("click", closeExperience);
 retryBtn.addEventListener("click", handleRetry);
