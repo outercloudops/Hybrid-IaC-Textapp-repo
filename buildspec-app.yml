@@ -12,7 +12,7 @@ phases:
       
   pre_build:    
     commands:
-      cp ./ah-text-app/lambda_handler.py ./package/ && cd ./package/ && zip -r ../ah-text-app/lambda_handler.zip . && cd ..
+      - cp ./ah-text-app/lambda_handler.py ./package/ && cd ./package/ && zip -r ../ah-text-app/lambda_handler.zip . && cd ..
   
   build:
     commands:
