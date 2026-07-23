@@ -97,10 +97,6 @@ Main-infra runs automatically via the pipeline on every push to main.
 
 ## Future Update To This Repo
 
-- Add buildspec-test.yml for dev branch pipeline.
-- Add buildspec-app.yml for main branch pipeline and app deployment.
-- Update cmk.tf Cloudfront policy to prevent drift. 
-- Add Lambda execution role, policy, and attachment configuration files in bootstrap.
-- Add secondary origin for apigw to CloudFront distribution resource.
-- Add Lambda Function, API Gateway, Route, Integration, & Stage resources in main-infra.
-- Add CloudWatch Group resource for lambda function in main-infra.
+- Update Intro Sequence timing for slower effect
+- add 'x' button to stop experience and return to front page
+- add clean exit once experience is over for front page redirect
