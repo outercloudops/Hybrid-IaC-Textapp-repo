@@ -81,7 +81,7 @@ const DELAY_TITLE_LETTER  = 90;           // ms per letter in materialization
 const DELAY_TITLE_ANIM    = 1400;         // ms for each letter's animation
 const DELAY_QUESTION_CHAR = 28;           // ms per char in question typewriter
 const DELAY_RESPONSE_CHAR = 18;           // ms per char in response typewriter
-const DELAY_INTRO_LINE    = 4000;          // ms between intro lines
+const DELAY_INTRO_LINE    = 3000;          // ms between intro lines
 const IDLE_TIMEOUT_MS     = 4 * 60 * 1000;  // 4 minutes idle warning
 
 // ── State ─────────────────────────────────────────────────────────────────────
@@ -89,7 +89,8 @@ const IDLE_TIMEOUT_MS     = 4 * 60 * 1000;  // 4 minutes idle warning
 let currentIndex  = 0;
 let idleTimer     = null;
 let lastSubmitted = null;  // stored for retry
-let aborted = false; 
+let aborted = false;
+let experienceRunning = false; 
 
 // ── DOM References ────────────────────────────────────────────────────────────
 
@@ -104,7 +105,6 @@ const loadingEl      = document.getElementById("loading");
 const errorDisplay   = document.getElementById("error-display");
 
 const titleText      = document.getElementById("title-text");
-const appSubtitle    = document.getElementById("app-subtitle");
 const introLines     = [
   document.getElementById("line-1"),
   document.getElementById("line-2"),
@@ -221,6 +221,15 @@ const INTRO_LINES_TEXT = [
 ];
 
 async function runIntroSequence() {
+  // Reset all lines — force reflow to clear any lingering transition state
+  introLines.forEach(line => {
+    line.style.transition = "none";
+    line.textContent = "";
+    line.classList.remove("visible");
+    line.offsetHeight; // forces the browser to reflow before restoring transition
+    line.style.transition = "";
+  });
+
   for (let i = 0; i < introLines.length; i++) {
     if (aborted) return;
     introLines[i].textContent = INTRO_LINES_TEXT[i];
@@ -305,6 +314,8 @@ async function runOutro() {
 // ── Experience Flow ───────────────────────────────────────────────────────────
 
 async function startExperience() {
+  if (experienceRunning) return;
+  experienceRunning = true;
   aborted = false;
   // Show overlay — covers the full window
   appOverlay.classList.remove("hidden");
@@ -404,9 +415,12 @@ async function handleSubmit() {
 }
 
 async function handleContinue() {
+  if (aborted) return;
+  hideEl(continueBtn);
   currentIndex++;
   if (currentIndex >= QUESTIONS.length) {
     await runOutro();
+    experienceRunning = false;
   } else {
     await showQuestion(QUESTIONS[currentIndex]);
   }
@@ -449,8 +463,11 @@ async function handleRetry() {
 }
 
 function closeExperience() {
+  experienceRunning = false;
   aborted = true;
   hideEl(appOverlay);
+  hideEl(loadingEl);
+  hideEl(errorDisplay);
   currentIndex  = 0;
   lastSubmitted = null;
   clearIdleTimer();
