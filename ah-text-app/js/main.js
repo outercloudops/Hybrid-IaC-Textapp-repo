@@ -121,6 +121,7 @@ const idleWarning     = document.getElementById("idle-warning");
 const responseText   = document.getElementById("response-text");
 const continueBtn    = document.getElementById("continue-btn");
 const closeBtn       = document.getElementById("close-btn");
+const overlayCloseBtn = document.getElementById("overlay-close-btn");
 
 const outroText      = document.getElementById("outro-text");
 
@@ -440,3 +441,4 @@ answerInput.addEventListener("keydown", (e) => {
 continueBtn.addEventListener("click", handleContinue);
 closeBtn.addEventListener("click", closeExperience);
 retryBtn.addEventListener("click", handleRetry);
+overlayCloseBtn.addEventListener("click", closeExperience);
