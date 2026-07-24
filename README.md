@@ -92,11 +92,14 @@ Main-infra runs automatically via the pipeline on every push to main.
 - TEXTAPP_BUCKET              App S3 bucket name for aws s3 sync
 - TEXTAPP_STATE_BUCKET        Main-infra backend bucket for terraform init
 - TF_VAR_bootstrap_state_bucket   Artifacts state bucket for remote state data source
+- DIST_ID                     Cloudfront Distribution ID since dynamic creation in buildspec unnecessary
 
 ---
 
 ## Future Update To This Repo
 
-- Update Intro Sequence timing for slower effect
-- add 'x' button to stop experience and return to front page
-- add clean exit once experience is over for front page redirect
+- Bug Fix Needed: closeExperience() function in main.js does not stop async operations
+ from executing.runIntroSequence() could still complete in the background while
+ overlay is hidden. Re-opening app can show intro lines already up and even out of 
+order while new ones begin.
+
