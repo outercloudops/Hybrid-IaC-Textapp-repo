@@ -89,6 +89,7 @@ const IDLE_TIMEOUT_MS     = 4 * 60 * 1000;  // 4 minutes idle warning
 let currentIndex  = 0;
 let idleTimer     = null;
 let lastSubmitted = null;  // stored for retry
+let aborted = false; 
 
 // ── DOM References ────────────────────────────────────────────────────────────
 
@@ -221,6 +222,7 @@ const INTRO_LINES_TEXT = [
 
 async function runIntroSequence() {
   for (let i = 0; i < introLines.length; i++) {
+    if (aborted) return;
     introLines[i].textContent = INTRO_LINES_TEXT[i];
     introLines[i].classList.add("visible");
     await sleep(DELAY_INTRO_LINE);
@@ -257,6 +259,7 @@ async function callAPI(question, userAnswer) {
 async function typewrite(element, text, delay) {
   element.textContent = "";
   for (const char of text) {
+    if (aborted) return;
     element.textContent += char;
     await sleep(delay);
   }
@@ -300,6 +303,7 @@ async function runOutro() {
 // ── Experience Flow ───────────────────────────────────────────────────────────
 
 async function startExperience() {
+  aborted = false;
   // Show overlay — covers the full window
   appOverlay.classList.remove("hidden");
   appOverlay.classList.add("phase-white");
@@ -409,6 +413,7 @@ async function handleRetry() {
 }
 
 function closeExperience() {
+  aborted = true;
   hideEl(appOverlay);
   currentIndex  = 0;
   lastSubmitted = null;
