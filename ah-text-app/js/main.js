@@ -286,10 +286,12 @@ async function runOutro() {
   outroText.textContent = "";
 
   for (const line of OUTRO_LINES) {
+    if (aborted) return;
     if (line === "") {
       outroText.textContent += "\n";
     } else {
       for (const char of line) {
+        if (aborted) return;
         outroText.textContent += char;
         await sleep(22);
       }
@@ -310,12 +312,25 @@ async function startExperience() {
 
   // Title screen is visible by default inside the overlay
   await sleep(300);
+  
+  if (aborted) return;
+
   await materializeTitle("THE FOUNDING MIRROR");
+  
+  if (aborted) return;
 
   await sleep(700);
+
+  if (aborted) return;
+
   await runIntroSequence();
 
+  if (aborted) return;
+
   await sleep(3000);
+
+  if (aborted) return;
+
   await showQuestion(QUESTIONS[currentIndex]);
 }
 
@@ -332,7 +347,12 @@ async function showQuestion(question) {
   questionCounter.textContent = `[ ${question.id} / 10 ]`;
 
   await typewrite(questionText, question.text, DELAY_QUESTION_CHAR);
+
+  if (aborted) return;
+
   await sleep(300);
+
+  if (aborted) return;
 
   showEl(submitBtn);
   answerInput.focus();
@@ -365,13 +385,21 @@ async function handleSubmit() {
     return;
   }
 
+  if (aborted) return;
+
   hideEl(loadingEl);
   showScreen(responseScreen);
   hideEl(continueBtn);
   responseText.textContent = "";
 
   await typewrite(responseText, aiResponse, DELAY_RESPONSE_CHAR);
+
+  if (aborted) return;
+
   await sleep(400);
+
+  if (aborted) return;
+
   showEl(continueBtn);
 }
 
@@ -401,6 +429,8 @@ async function handleRetry() {
     return;
   }
 
+  if (aborted) return;
+
   hideEl(loadingEl);
   hideEl(errorDisplay);
   showScreen(responseScreen);
@@ -408,7 +438,13 @@ async function handleRetry() {
   responseText.textContent = "";
 
   await typewrite(responseText, aiResponse, DELAY_RESPONSE_CHAR);
+
+  if (aborted) return;
+
   await sleep(400);
+
+  if (aborted) return;
+
   showEl(continueBtn);
 }
 
